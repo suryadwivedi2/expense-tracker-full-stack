@@ -1,7 +1,4 @@
 
-
-
-
 function getformvalue(event){
 event.preventDefault();
 const name=document.getElementById('name').value;
@@ -14,12 +11,10 @@ let userdata={
     "password":password
 }
 
-axios.post("http://localhost:3000/seller/add-product", userdata)
+axios.post("http://localhost:4000/expense/add-user", userdata)
         .then((response) => {
-            console.log("added")
+            console.log(response);
         }).catch((err) => {
             console.log(err);
         })
-
-
 }
