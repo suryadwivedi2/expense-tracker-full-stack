@@ -2,8 +2,6 @@
 
 async function getformvalue(event){
     event.preventDefault();
-    
-    
     try{
     const email=document.getElementById('email').value;
     const password=document.getElementById('pass').value;
@@ -12,13 +10,14 @@ async function getformvalue(event){
         "password":password
     }
     
-    const res=await axios.post("http://localhost:4000/expense/login-user", userdata)
+    const res=await axios.post("http://localhost:4000/expense/login-user", userdata);
                     if(res.status==201){
-                    window.location.href='login.html';
+              window.location.href='login.html';
+                    alert('login successfull');
                 }else{
-                    throw new Error('please match email id or password');
+                    throw new Error('user not authorized');
                 }
             }catch(err){
-                document.body.innerHTML+=`<div style="color:red;">${'please match email id or password'}</div>`;
+                document.body.innerHTML+='<div style="color:red;">user not authorized</div>';
             }
     }

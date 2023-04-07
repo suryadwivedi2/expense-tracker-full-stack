@@ -23,7 +23,20 @@ let data={
 }
 
 
-exports.loginUser=(req,res,next)=>{
-const email=req.body.email;
-const password=req.body.password;
+exports.loginUser=async(req,res,next)=>{
+try{
+    const email=req.body.email;
+   const password=req.body.password;
+   const user=await Exp.findOne({where:{email:email}});
+    if(user!==null && user.password===password){
+        res.status(201).json({email});
+    }else{
+        throw new Error('wrong details');
+    }
+} catch(err){
+res.status(501).json({err});
+
+}
+
+
 }
