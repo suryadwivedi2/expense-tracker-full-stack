@@ -16,8 +16,14 @@ let data={
         email:email,
         password:password
     }).then(()=>{
-       res.status(200).json({userdetails:data});
+       res.status(201).json({userdetails:data});
     }).catch(err=>{
-        console.log(err);
+        res.status(500).json('something went wrong');
     })
+}
+
+
+exports.loginUser=(req,res,next)=>{
+const email=req.body.email;
+const password=req.body.password;
 }
