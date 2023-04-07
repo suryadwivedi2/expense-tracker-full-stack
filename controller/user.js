@@ -1,4 +1,4 @@
-const Exp = require('../models/expense-details');
+const Exp = require('../models/user-details');
 const bcryt = require('bcrypt');
 
 

@@ -6,6 +6,7 @@ const sequelize=require('./util/database');
 const app=express();
 
 const userroute=require('./routes/user');
+const expenseroute=require('./routes/expenses');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,6 +15,7 @@ app.use(cors());
 
 
 app.use('/expense',userroute);
+app.use('/user',expenseroute);
 
 sequelize.sync()
 .then(()=>{
