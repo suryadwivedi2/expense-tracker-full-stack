@@ -16,6 +16,7 @@ let userdata={
 
 const res=await axios.post("http://localhost:4000/expense/add-user", userdata)
                 if(res.status==201){
+              console.log('added successfull');
                 window.location.href='login.html';
             }else{
                 throw new Error('something went wrong');
