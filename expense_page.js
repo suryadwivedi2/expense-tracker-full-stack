@@ -1,4 +1,5 @@
 
+const token=localStorage.getItem("token");
 
 function getformvalue(event){
     event.preventDefault();
@@ -10,7 +11,7 @@ function getformvalue(event){
         "description":description,
         "category":category
     }
-    axios.post('http://localhost:4000/user/add-expense',expense_detail)
+axios.post('http://localhost:4000/user/add-expense',expense_detail,{headers:{'Authorization':token}})
     .then((response)=>{
         console.log('expense added');
         showscreen(expense_detail);
@@ -20,18 +21,14 @@ function getformvalue(event){
 }
 
 
-
-axios.get('http://localhost:4000/user/get-expense',{
-
-}).then((response)=>{
-    console.log("fetched exepnese");
+axios.get('http://localhost:4000/user/get-expense',{headers:{'Authorization':token}})
+.then((response)=>{
+    console.log("fetched exepnse");
     for(let i=0;i<response.data.length;i++)
     {
         showscreen(response.data[i]);
     }
 })
-
-
 
 
 function showscreen(data){
@@ -46,7 +43,7 @@ function showscreen(data){
     li.appendChild(dltbtn);
     ul.appendChild(li);
 dltbtn.onclick=()=>{
-    axios.delete(`http://localhost:4000/user/delete-expense/${data.id}`)
+    axios.delete(`http://localhost:4000/user/delete-expense/${data.id}`,{headers:{'Authorization':token}})
     .then((result)=>{
         console.log("deleted");
         ul.removeChild(li);

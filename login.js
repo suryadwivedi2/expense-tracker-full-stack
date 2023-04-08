@@ -12,7 +12,8 @@ async function getformvalue(event){
     
     const res=await axios.post("http://localhost:4000/expense/login-user", userdata);
                     if(res.status==201){
-              window.location.href='expense_page.html';
+              localStorage.setItem('token',res.data.token)
+                        window.location.href='expense_page.html';
                     alert('login successfull');
                 }else{
                     throw new Error('user not authorized');

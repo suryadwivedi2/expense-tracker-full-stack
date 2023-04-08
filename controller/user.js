@@ -1,6 +1,6 @@
 const Exp = require('../models/user-details');
 const bcryt = require('bcrypt');
-
+const jwt=require('jsonwebtoken');
 
 exports.addUser = async (req, res, next) => {
     try {
@@ -24,6 +24,11 @@ exports.addUser = async (req, res, next) => {
 }
 
 
+function generatetoken(id){
+    return jwt.sign({userId:id},'8738654326758615762675');
+}
+
+
 exports.loginUser = async (req, res, next) => {
     try {
         const email = req.body.email;
@@ -33,10 +38,11 @@ exports.loginUser = async (req, res, next) => {
             bcryt.compare(password,user.password,(err, result) => {
                 //console.log(result);
                 if (err) {
-                    return res.status(400).json({err});
+                    return res.status(400).json({user:user});
                 }
-                 if (result === true) {
-                    res.status(201).json(email);
+                if (result === true) {
+                     console.log(user.id);
+                    res.status(201).json({token:generatetoken(user.id)});
                 } 
                 if(result===false)
                 {
