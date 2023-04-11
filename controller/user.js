@@ -14,7 +14,8 @@ exports.addUser = async (req, res, next) => {
             await Exp.create({
                 name: name,
                 email: email,
-                password: hash
+                password: hash,
+                ispremium:false
             })
             res.status(201).json({ email });
         })
@@ -36,13 +37,12 @@ exports.loginUser = async (req, res, next) => {
         const user = await Exp.findOne({ where: { email: email } });
         if (user.email === email) {
             bcryt.compare(password,user.password,(err, result) => {
-                //console.log(result);
+                //console.log(user.ispremium);
                 if (err) {
                     return res.status(400).json({user:user});
                 }
                 if (result === true) {
-                     console.log(user.id);
-                    res.status(201).json({token:generatetoken(user.id)});
+                    res.status(201).json({token:generatetoken(user.id),ispremium:user.ispremium});
                 } 
                 if(result===false)
                 {

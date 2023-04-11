@@ -1,4 +1,5 @@
 const Exp = require('../models/user-details');
+const Expenses=require('../models/expenses');
 const bcryt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const Razor=require('razorpay');
@@ -30,6 +31,16 @@ exports.updatetransaction=(req,res,next)=>{
 const payment_id=req.body.payment_id;
 const order_id=req.body.order_id;
 console.log(payment_id+" "+order_id);
+
+if(payment_id==undefined){
+    Order.findOne({where:{orderId:order_id}}).then(order=>{
+        order.update({paymentId:payment_id,status:"FAILED"}).then(()=>{
+        return res.status(201).json({success:false,message:'transaction failed'});
+       }).catch(err=>{
+        console.log(err)
+       })
+        })
+}else{
 Order.findOne({where:{orderId:order_id}}).then(order=>{
     order.update({paymentId:payment_id,status:"SUCCESSFULL"}).then(()=>{
    req.user.update({ispremium:true}).then(()=>{
@@ -42,5 +53,13 @@ Order.findOne({where:{orderId:order_id}}).then(order=>{
     })
 }).catch(err=>{
     console.log(err);
-})
+})}
+}
+
+
+exports.showleaderboard=(req,res,next)=>{
+    Expenses.findAll().then((users)=>{
+   console.log(users);
+    res.status(201).json({"message":"nice"});
+    }).catch(err=>console.log(err));
 }

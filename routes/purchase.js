@@ -9,6 +9,6 @@ const router=express.Router();
 
 router.get('/purchase-premium',auth.authenticate,purchasecontroller.purchasemembership);
 router.post('/update-transaction',auth.authenticate,purchasecontroller.updatetransaction);
-
+router.post('/show-leaderboard',purchasecontroller.showleaderboard);
 
 module.exports=router;

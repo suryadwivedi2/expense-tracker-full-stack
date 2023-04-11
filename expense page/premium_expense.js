@@ -52,38 +52,19 @@ dltbtn.onclick=()=>{
 }
 }
 
-pbtn.onclick=async(e)=>{
-    e.preventDefault();
-const response=await axios.get('http://localhost:4000/premium/purchase-premium',{headers:{"Authorization":token}});
-let options={
-    "key":response.data.key_id,
-    "order_id":response.data.order.id,
-    "handler":async function(response){
-        await axios.post('http://localhost:4000/premium/update-transaction',{
-           order_id:options.order_id,
-           payment_id:response.razorpay_payment_id
-        },{headers:{"Authorization":token}})
 
-        alert('congratulation on  buying our premium services')
-        window.location.href='../expense page/expense_page_premium.html';
+lbtn.onclick=async(e)=>{
+    e.preventDefault();
+  try{ 
+    const ul=document.getElementById('leaderboard-list');
+   const li=document.createElement('li');
+   const res=await axios.post('http://localhost:4000/premium/show-leaderboard',{headers:{"Authorization":token}});
+    if(res.status==201){
+        console.log("leaderboard fetched")
+    }else{
+        throw new Error('not found')
     }
-
+}catch(err){
+console.log(err);
 }
-const rpz1=new Razorpay(options)
-rpz1.open();
-
-
-rpz1.on('payment.failed',async function (response){    
-    await axios.post('http://localhost:4000/premium/update-transaction',{
-           order_id:options.order_id,
-           payment_id:response.razorpay_payment_id
-        },{headers:{"Authorization":token}})
-
-        alert('something went wrong');
-})
-}
-
-lbtn.onclick=(e)=>{
-    e.preventDefault();
-    console.log("hello world");
 }

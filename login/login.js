@@ -11,11 +11,17 @@ async function getformvalue(event){
     }
     
     const res=await axios.post("http://localhost:4000/expense/login-user", userdata);
-                    if(res.status==201){
+                    if(res.status==201 && res.data.ispremium==true){
+                      //  console.log(res.data.);
               localStorage.setItem('token',res.data.token)
-                        window.location.href='../expense page/expense_page.html';
+              window.location.href='../expense page/expense_page_premium.html';          
                     alert('login successfull');
-                }else{
+                }else if(res.status==201 && res.data.ispremium==false){
+                    localStorage.setItem('token',res.data.token)
+                    window.location.href='../expense page/expense_page.html';
+                    alert('login successfull');
+                }
+                else{
                     throw new Error('user not authorized');
                 }
             }catch(err){
