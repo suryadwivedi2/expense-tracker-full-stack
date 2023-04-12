@@ -25,8 +25,8 @@ exports.addUser = async (req, res, next) => {
 }
 
 
-function generatetoken(id){
-    return jwt.sign({userId:id},'8738654326758615762675');
+const generatetoken=(id,ispremium)=>{
+    return jwt.sign({userId:id,ispremium},'8738654326758615762675');
 }
 
 
@@ -42,7 +42,7 @@ exports.loginUser = async (req, res, next) => {
                     return res.status(400).json({user:user});
                 }
                 if (result === true) {
-                    res.status(201).json({token:generatetoken(user.id),ispremium:user.ispremium});
+                    res.status(201).json({token:generatetoken(user.id,user.ispremium)});
                 } 
                 if(result===false)
                 {
@@ -56,3 +56,4 @@ exports.loginUser = async (req, res, next) => {
         return res.status(501).json({"message":"email not found"});
     }
 }
+

@@ -1,15 +1,23 @@
-const Exp = require('../models/user-details');
+const User = require('../models/user-details');
 const Expenses=require('../models/expenses');
 const bcryt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const Razor=require('razorpay');
 const Order=require('../models/order');
 const { parse } = require('dotenv');
+const sequelize = require('../util/database');
+const { fn } = require('sequelize');
+
 //const dotenv=require('dotenv').config();
 
+const generatetoken=(id,ispremium)=>{
+    return jwt.sign({userId:id,ispremium},'8738654326758615762675');
+}
+
+
 exports.purchasemembership=(req,res,next)=>{
-const rzp=new Razor({
-key_id:'rzp_test_2JipZf3VKn4c2u',
+    const rzp=new Razor({
+        key_id:'rzp_test_2JipZf3VKn4c2u',
 key_secret:'6jdUCL9hkQkY836YmsYfgAAx'
 })
 const amount=25000;
@@ -30,7 +38,8 @@ rzp.orders.create({amount,currency:"INR"},(err,order)=>{
 exports.updatetransaction=(req,res,next)=>{
 const payment_id=req.body.payment_id;
 const order_id=req.body.order_id;
-console.log(payment_id+" "+order_id);
+//console.log(payment_id+" "+order_id);
+const userId=req.user.id;
 
 if(payment_id==undefined){
     Order.findOne({where:{orderId:order_id}}).then(order=>{
@@ -44,7 +53,7 @@ if(payment_id==undefined){
 Order.findOne({where:{orderId:order_id}}).then(order=>{
     order.update({paymentId:payment_id,status:"SUCCESSFULL"}).then(()=>{
    req.user.update({ispremium:true}).then(()=>{
-    return res.status(201).json({success:true,message:'transaction successfull'});
+    return res.status(201).json({success:true,message:'transaction successfull',token:generatetoken(userId,true)});
    }).catch(err=>{
     console.log(err)
    })
@@ -57,9 +66,21 @@ Order.findOne({where:{orderId:order_id}}).then(order=>{
 }
 
 
-exports.showleaderboard=(req,res,next)=>{
-    Expenses.findAll().then((users)=>{
-   console.log(users);
-    res.status(201).json({"message":"nice"});
-    }).catch(err=>console.log(err));
+exports.showleaderboard=async (req,res,next)=>{
+    try{
+        const leaderboardofuser=await User.findAll({
+            attributes:['id','name',[sequelize.fn('sum',sequelize.col('expenses.amount')),'total_cost']],
+           include:[
+            {
+                model:Expenses,
+                attributes:[]
+            }
+           ],
+            group:['id'],
+            order:[['total_cost',"DESC"]]
+        })
+        res.status(201).json(leaderboardofuser);
+    }catch(err){
+    res.status(401).json({err});
+}
 }
