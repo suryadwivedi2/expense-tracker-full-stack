@@ -25,6 +25,10 @@ const exp=sequelize.define('user',{
       },
       ispremium:{
         type:Sequelize.BOOLEAN
+      },
+      totalexpense:{
+        type:Sequelize.INTEGER,
+        defaultValue:0
       }
 })
 

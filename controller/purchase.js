@@ -69,15 +69,7 @@ Order.findOne({where:{orderId:order_id}}).then(order=>{
 exports.showleaderboard=async (req,res,next)=>{
     try{
         const leaderboardofuser=await User.findAll({
-            attributes:['id','name',[sequelize.fn('sum',sequelize.col('expenses.amount')),'total_cost']],
-           include:[
-            {
-                model:Expenses,
-                attributes:[]
-            }
-           ],
-            group:['id'],
-            order:[['total_cost',"DESC"]]
+            order:[['totalexpense',"DESC"]]
         })
         res.status(201).json(leaderboardofuser);
     }catch(err){

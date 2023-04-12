@@ -11,15 +11,12 @@ async function getformvalue(event){
     }
     
     const res=await axios.post("http://localhost:4000/expense/login-user", userdata);
-                    if(res.status==201 && res.data.ispremium==true){
+                    if(res.status==201){
                       //  console.log(res.data.);
-              localStorage.setItem('token',res.data.token)
-              window.location.href='../expense page/expense_page_premium.html';          
+              localStorage.setItem('token',res.data.token)          
                     alert('login successfull');
-                }else if(res.status==201 && res.data.ispremium==false){
                     localStorage.setItem('token',res.data.token)
                     window.location.href='../expense page/expense_page.html';
-                    alert('login successfull');
                 }
                 else{
                     throw new Error('user not authorized');
@@ -28,6 +25,7 @@ async function getformvalue(event){
                 document.body.innerHTML+='<div style="color:red;">user not authorized</div>';
             }
         }
+
         function redirect(event){
              event.preventDefault();
              window.location.href='../signup/expense_tracker.html';
