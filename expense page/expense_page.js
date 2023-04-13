@@ -93,7 +93,7 @@ function showscreen(data) {
     li.appendChild(dltbtn);
     ul.appendChild(li);
     dltbtn.onclick = () => {
-        axios.delete(`http://localhost:4000/user/delete-expense/${data.id}`, { headers: { 'Authorization': token } })
+        axios.delete(`http://localhost:4000/user/delete-expense/${data.id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
             .then((result) => {
                 console.log("deleted");
                 ul.removeChild(li);
@@ -131,6 +131,11 @@ pbtn.onclick = async (e) => {
 
         alert('something went wrong');
     })
+}
+
+
+document.getElementById('forgot-password').onclick=()=>{
+window.location.href='../resetpassword/resetpass.html'
 }
 
 
