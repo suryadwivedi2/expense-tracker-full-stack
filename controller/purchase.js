@@ -4,7 +4,6 @@ const bcryt = require('bcrypt');
 const jwt=require('jsonwebtoken');
 const Razor=require('razorpay');
 const Order=require('../models/order');
-const { parse } = require('dotenv');
 const sequelize = require('../util/database');
 const { fn } = require('sequelize');
 

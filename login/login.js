@@ -1,4 +1,10 @@
 
+function resetpass(e){
+e.preventDefault();
+window.location.href='../resetpassword/resetpassword.html';
+}
+
+
 
 async function getformvalue(event){
     event.preventDefault();

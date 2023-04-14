@@ -1,5 +1,6 @@
 const express=require('express');
 const bodyParser=require('body-parser');
+const Sib=require('sib-api-v3-sdk');
 const cors=require('cors');
 const sequelize=require('./util/database');
 
@@ -8,7 +9,7 @@ const app=express();
 const userroute=require('./routes/user');
 const expenseroute=require('./routes/expenses');
 const purchaseroute=require('./routes/purchase');
-const resetroute=require('./routes/resetpassword');
+const resetroute=require('./routes/resetpass');
 const User=require('./models/user-details');
 const Expenses=require('./models/expenses');
 const Order=require('./models/order');
