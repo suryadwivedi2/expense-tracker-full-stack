@@ -27,6 +27,11 @@ function getformvalue(event) {
 function premiumuser() {
     pbtn.remove();
     divp.innerHTML = "<h6>YOU ARE A PREMIUM USER</h6>";
+    const rbtn=document.getElementById('showreport');
+    const inputelement=document.createElement('input');
+    inputelement.type='button';
+    inputelement.value='SHOW PREMIUM REPORT';
+    rbtn.appendChild(inputelement);
 }
 
 
@@ -49,6 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (decodedtoken.ispremium == true) {
         premiumuser();
         showleaderboard();
+        document.getElementById('dbtn').disabled=false;
     }
     axios.get('http://localhost:4000/user/get-expense', { headers: { 'Authorization': token } })
         .then((response) => {
@@ -116,7 +122,7 @@ pbtn.onclick = async (e) => {
             //console.log(res.data.token);
             alert('congratulation on  buying our premium services')
             premiumuser();
-            //showleaderboard();
+            showleaderboard();
         }
     }
     const rpz1 = new Razorpay(options)
@@ -131,11 +137,6 @@ pbtn.onclick = async (e) => {
 
         alert('something went wrong');
     })
-}
-
-
-document.getElementById('forgot-password').onclick=()=>{
-window.location.href='../resetpassword/resetpass.html'
 }
 
 
