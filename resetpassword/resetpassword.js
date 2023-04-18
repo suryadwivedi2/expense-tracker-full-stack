@@ -3,9 +3,8 @@
 function getresetvalue(e){
     e.preventDefault();
    const email=document.getElementById('email').value;
-    console.log(email);
-
-    axios.post('http://localhost:4000/called/reset-password',{
+    localStorage.setItem('email',email)
+    axios.post('http://localhost:4000/called/forgot-password',{
         email:email
     }).then((res)=>{
         console.log('sucess')

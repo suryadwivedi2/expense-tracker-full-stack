@@ -5,7 +5,8 @@ const resetcontroller=require('../controller/resetpass');
 
 const router=express.Router();
 
-router.post('/reset-password',resetcontroller.resetpass);
-
+router.post('/forgot-password',resetcontroller.forgotpass);
+router.get('/reset-password/:id',resetcontroller.resetpass);
+router.get('/update-password/:id',resetcontroller.updatepassword)
 
 module.exports=router;

@@ -13,6 +13,7 @@ const resetroute=require('./routes/resetpass');
 const User=require('./models/user-details');
 const Expenses=require('./models/expenses');
 const Order=require('./models/order');
+const Forgotpassword=require('./models/forgotpassword');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
@@ -27,6 +28,9 @@ Expenses.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 
 sequelize
