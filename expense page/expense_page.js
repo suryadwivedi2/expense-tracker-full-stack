@@ -55,6 +55,21 @@ window.addEventListener('DOMContentLoaded', () => {
         premiumuser();
         showleaderboard();
         document.getElementById('dbtn').disabled=false;
+        document.getElementById('dbtn').onclick=async()=>{
+          try{
+              const response=await  axios.get('http://localhost:4000/premium/download',{ headers: { 'Authorization': token } })
+               if(response.status==200)
+               {
+                var a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download = 'myexpense.csv';
+            a.click();
+                console.log('success');
+               }          
+            } catch(err){
+                console.log(err);
+            }
+        }
     }
     axios.get('http://localhost:4000/user/get-expense', { headers: { 'Authorization': token } })
         .then((response) => {

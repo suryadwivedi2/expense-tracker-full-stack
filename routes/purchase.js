@@ -10,6 +10,6 @@ const router=express.Router();
 router.get('/purchase-premium',auth.authenticate,purchasecontroller.purchasemembership);
 router.post('/update-transaction',auth.authenticate,purchasecontroller.updatetransaction);
 router.get('/show-leaderboard',auth.authenticate,purchasecontroller.showleaderboard);
-
+router.get('/download',auth.authenticate,purchasecontroller.downloadexpense);
 
 module.exports=router;
