@@ -22,10 +22,10 @@ const t=await sequelize.transaction();
     }
 }
 
-const total_expense_perpage=10;
 
 exports.getuser=async(req,res,next)=>{
     try{
+        const total_expense_perpage=Number(req.params.no_of_item);
         const page=Number(req.query.page);
         const totalitems=await Expense.count({where:{userId:req.user.id}});
         const products= await Expense.findAll({where:{userId:req.user.id},
@@ -61,5 +61,4 @@ exports.deleteexpense=async(req,res,next)=>{
         await t.rollback();
         res.status(401).json({err});
     }
-    
 }

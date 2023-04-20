@@ -35,6 +35,7 @@ function premiumuser() {
 }
 
 
+const decodedtoken = parseJwt(token);
 
 function parseJwt(token) {
     var base64Url = token.split('.')[1];
@@ -47,8 +48,10 @@ function parseJwt(token) {
 }
 
 
-const decodedtoken = parseJwt(token);
-
+let no_of_item=10;
+document.getElementById('noofitembtn').onclick=()=>{
+    localStorage.setItem('frequency',document.getElementById('noofitem').value)
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     if (decodedtoken.ispremium == true) {
@@ -71,8 +74,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+    const n=localStorage.getItem('frequency');
+    if(n)
+    {
+       no_of_item=Number(n);
+    }
     const page=1;
-    axios.get(`http://localhost:4000/user/get-expense?page=${page}`, { headers: { 'Authorization': token } })
+    axios.get(`http://localhost:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
         .then((response) => {
             //console.log(response.data);
                 showscreen(response.data.products);
@@ -228,7 +236,7 @@ if(lastPage && lastPage!=currentPage && lastPage!=nextPage && lastPage!=previous
 
 
 function getproducts(page){
-    axios.get(`http://localhost:4000/user/get-expense?page=${page}`, { headers: { 'Authorization': token } })
+    axios.get(`http://localhost:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
     .then((response) => {
         //console.log(response.data);
             showscreen(response.data.products);
