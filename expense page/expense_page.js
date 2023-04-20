@@ -17,7 +17,7 @@ function getformvalue(event) {
     axios.post('http://localhost:4000/user/add-expense', expense_detail, { headers: { 'Authorization': token } })
         .then((response) => {
             console.log('expense added');
-            showscreen(expense_detail);
+            showscreenadd(expense_detail);
         }).catch((err) => {
             console.log(err);
         })
@@ -71,12 +71,12 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    axios.get('http://localhost:4000/user/get-expense', { headers: { 'Authorization': token } })
+    const page=1;
+    axios.get(`http://localhost:4000/user/get-expense?page=${page}`, { headers: { 'Authorization': token } })
         .then((response) => {
-            console.log("fetched exepnse");
-            for (let i = 0; i < response.data.length; i++) {
-                showscreen(response.data[i]);
-            }
+            //console.log(response.data);
+                showscreen(response.data.products);
+          showpagination(response.data);
         })
 
     function showleaderboard() {
@@ -103,6 +103,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 function showscreen(data) {
+    document.getElementById('list-item').innerHTML="";
+    for (let i = 0; i < data.length; i++) {
+        const ul = document.getElementById('list-item');
+        const li = document.createElement('li');
+        li.id = 'lists';
+        const dltbtn = document.createElement("input");
+        dltbtn.class = "btn-check";
+        dltbtn.type = "button";
+        dltbtn.value = "Delete-product";
+        li.textContent = data[i].amount + "-" + "-" + data[i].description + "-" + data[i].category;
+        li.appendChild(dltbtn);
+        ul.appendChild(li);
+        dltbtn.onclick = () => {
+            axios.delete(`http://localhost:4000/user/delete-expense/${data[i].id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
+                .then((result) => {
+                    console.log("deleted");
+                    ul.removeChild(li);
+                }).catch(err => console.log(err));
+        }
+    }
+}
+function showscreenadd(data) {
     const ul = document.getElementById('list-item');
     const li = document.createElement('li');
     li.id = 'lists';
@@ -155,6 +177,61 @@ pbtn.onclick = async (e) => {
 }
 
 
+function showpagination(data){
+    const currentPage=data.currentPage
+    const hasNextpage=data.hasNextpage
+    const hasPreviouspage=data.hasPreviouspage;
+    const lastPage=data.lastPage;
+    const nextPage=data.nextPage
+    const previousPage=data.previousPage;
+   // console.log(currentPage)  
+   const pgbtn=document.getElementById('pagination-btn');
+
+   pgbtn.innerHTML='';
+if(currentPage){
+    const btn1=document.createElement('input');
+    btn1.type='button';
+    btn1.value=`${currentPage}`;
+     pgbtn.appendChild(btn1);
+     btn1.onclick=()=>{
+        getproducts(currentPage);
+     }
+}
+if(hasNextpage){
+    const btn2=document.createElement('input');
+    btn2.type='button';
+    btn2.value=`${nextPage}`;
+     pgbtn.appendChild(btn2);
+     btn2.onclick=()=>{
+        getproducts(nextPage);
+     }
+}
+if(hasPreviouspage){
+    const btn3=document.createElement('input');
+    btn3.type='button';
+    btn3.value=`${previousPage}`;
+     pgbtn.appendChild(btn3);
+     btn3.onclick=()=>{
+        getproducts(previousPage);
+     }
+}
+if(lastPage && lastPage!=currentPage && lastPage!=nextPage && lastPage!=previousPage){
+    const btn4=document.createElement('input');
+    btn4.type='button';
+    btn4.value=`${lastPage}`;
+     pgbtn.appendChild(btn4);
+     btn4.onclick=()=>{
+        getproducts(lastPage);
+     }
+}
+}
 
 
-
+function getproducts(page){
+    axios.get(`http://localhost:4000/user/get-expense?page=${page}`, { headers: { 'Authorization': token } })
+    .then((response) => {
+        //console.log(response.data);
+            showscreen(response.data.products);
+      showpagination(response.data);
+    })
+}

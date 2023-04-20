@@ -38,7 +38,7 @@
                 <button id="premiumbtn">BUY PREMIUM</button>
         </nav>
     </header>
-    <main>
+    <main id="content">
         <form action="#" onsubmit="getformvalue(event)" class="form-control">
             <label for="amount">ENTER YOUR AMOUNT:</label>
             <input type="text" id="amount" placeholder="enter amount" required>
@@ -60,7 +60,7 @@
         
     </div>
     <div id="showreport">
-
+  
     </div>
     <div id="downloadreport">
         <button id="dbtn" disabled>DOWNLOAD REPORT</button>
@@ -78,7 +78,11 @@
 
         </div>
         
-        
+        <footer>
+            <div id="pagination-btn">
+
+            </div>
+        </footer>
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script src="expense_page.js"></script>

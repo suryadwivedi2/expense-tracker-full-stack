@@ -22,12 +22,27 @@ const t=await sequelize.transaction();
     }
 }
 
+const total_expense_perpage=10;
+
 exports.getuser=async(req,res,next)=>{
     try{
-     const products=await Expense.findAll({where:{userId:req.user.id}})
-     res.status(200).json(products);
+        const page=Number(req.query.page);
+        const totalitems=await Expense.count({where:{userId:req.user.id}});
+        const products= await Expense.findAll({where:{userId:req.user.id},
+            offset:(page-1)*total_expense_perpage,
+            limit:total_expense_perpage
+        })
+     res.status(200).json({
+        products:products,
+        currentPage:page,
+        hasNextpage:total_expense_perpage*page<totalitems,
+        nextPage:page+1,
+        hasPreviouspage:page>1,
+        previousPage:page-1,
+        lastPage:Math.ceil(totalitems/total_expense_perpage)
+    });
     }catch(err){
-        res.status(400).json(err);
+        res.status(500).json(err);
     };
 }
 
