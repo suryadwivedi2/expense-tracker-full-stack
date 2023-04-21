@@ -7,7 +7,7 @@ const sequelize = require('../util/database');
 const Forgot=require('../models/forgotpassword');
 const User=require('../models/user-details');
 const { v4: uuidv4 } = require('uuid');
-require('dotenv').config();
+//require('dotenv').config();
 
 let Uid;
 let Id;

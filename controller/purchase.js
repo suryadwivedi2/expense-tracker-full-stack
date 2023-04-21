@@ -7,7 +7,7 @@ const Order=require('../models/order');
 const sequelize = require('../util/database');
 const { fn } = require('sequelize');
 const AWS=require('aws-sdk');
-//const dotenv=require('dotenv').config();
+// require('dotenv').config();
 
 const generatetoken=(id,ispremium)=>{
     return jwt.sign({userId:id,ispremium},'8738654326758615762675');
@@ -16,8 +16,8 @@ const generatetoken=(id,ispremium)=>{
 
 exports.purchasemembership=(req,res,next)=>{
     const rzp=new Razor({
-        key_id:'rzp_test_2JipZf3VKn4c2u',
-key_secret:'6jdUCL9hkQkY836YmsYfgAAx'
+        key_id:process.env.KEY_ID,
+key_secret:process.env.KEY_SECRET
 })
 const amount=25000;
 rzp.orders.create({amount,currency:"INR"},(err,order)=>{
@@ -80,9 +80,9 @@ exports.showleaderboard=async (req,res,next)=>{
 }
 
 function uploadtos3(data,filename){
- const BUCKET_NAME='expensetracker12344';
- const IAM_USER_KEY='AKIA2F5APAKAGZTYZTU7';
- const IAM_USER_SECRET='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';
+ const BUCKET_NAME=process.env.BUCKET_NAME;
+ const IAM_USER_KEY=process.env.S3_USER_KEY;
+ const IAM_USER_SECRET=process.env.S3_USER_SECRET;
 
  let s3bucket=new AWS.S3({
     accessKeyId:IAM_USER_KEY,
