@@ -1,4 +1,5 @@
 
+require('dotenv').config();
 const bcryt = require('bcrypt');
 const path=require('path');
 const Sib=require("sib-api-v3-sdk");
@@ -7,7 +8,6 @@ const sequelize = require('../util/database');
 const Forgot=require('../models/forgotpassword');
 const User=require('../models/user-details');
 const { v4: uuidv4 } = require('uuid');
-//require('dotenv').config();
 
 let Uid;
 let Id;

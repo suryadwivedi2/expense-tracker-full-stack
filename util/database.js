@@ -1,8 +1,10 @@
+const path=require('path');
+require('dotenv').config();
 const Sequelize=require('sequelize')
 
-const sequelize=new Sequelize('expensetracker','root','Surya@2001',{
+const sequelize=new Sequelize(process.env.DB_NAME,process.env.US_NAME,process.env.US_PASS,{
     dialect:'mysql',
-    host:'localhost'
+    host:process.env.DB_HOST
 })
 
     module.exports=sequelize;

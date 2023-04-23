@@ -1,4 +1,6 @@
+//const https=require('https');
 const path=require('path');
+require('dotenv').config();
 const express=require('express');
 const bodyParser=require('body-parser');
 const Sib=require('sib-api-v3-sdk');
@@ -25,6 +27,9 @@ const accesslogstream=fs.createWriteStream(
     }
 )
 
+//const privateKey=fs.readFileSync('server.key');
+//const certificate=fs.readFileSync('server.cert');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
@@ -50,6 +55,7 @@ sequelize
 //.sync({force:true})
 .sync()
 .then(()=>{
+    //https.createServer({key:privateKey,cert:certificate},app)
     app.listen(process.env.PORT || 4000);
 }).catch(err=>
     console.log(err));

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const User = require('../models/user-details');
 const Expenses=require('../models/expenses');
 const bcryt = require('bcrypt');
@@ -7,10 +8,9 @@ const Order=require('../models/order');
 const sequelize = require('../util/database');
 const { fn } = require('sequelize');
 const AWS=require('aws-sdk');
-// require('dotenv').config();
 
 const generatetoken=(id,ispremium)=>{
-    return jwt.sign({userId:id,ispremium},'8738654326758615762675');
+    return jwt.sign({userId:id,ispremium},process.env.JWT_STRING);
 }
 
 

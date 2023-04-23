@@ -1,10 +1,11 @@
+require('dotenv').config();
 const User=require('../models/user-details');
 const jwt=require('jsonwebtoken');
 
 
 exports.authenticate=(req,res,next)=>{
     const token=req.header('Authorization');
-    const user=jwt.verify(token,'8738654326758615762675');
+    const user=jwt.verify(token,process.env.JWT_STRING);
     //console.log(user);  
     User.findByPk(user.userId)
         .then((user)=>{
