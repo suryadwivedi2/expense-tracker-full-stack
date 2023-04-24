@@ -39,7 +39,7 @@ app.use(morgan('combined',{stream:accesslogstream}));
 app.use(function(req, res, next) { 
     res.setHeader( 'Content-Security-Policy', "script-src 'self' 'unsafe-inline' 'unsafe-hashes'  https://cdnjs.cloudflare.com https://checkout.razorpay.com/"); 
     next(); 
-  })
+  });
 
 app.use('/expense',userroute);
 app.use('/user',expenseroute);
