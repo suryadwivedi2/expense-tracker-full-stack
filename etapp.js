@@ -36,11 +36,20 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('combined',{stream:accesslogstream}));
 
+app.use(function(req, res, next) { 
+    res.setHeader( 'Content-Security-Policy', "script-src 'self' 'unsafe-inline' 'unsafe-hashes'  https://cdnjs.cloudflare.com https://checkout.razorpay.com/"); 
+    next(); 
+  })
 
 app.use('/expense',userroute);
 app.use('/user',expenseroute);
 app.use('/premium',purchaseroute);
 app.use('/called',resetroute);
+app.use((req,res,next)=>{
+    //console.log(req.url);
+res.sendFile(path.join(__dirname,`frontend/${req.url}`))
+})
+
 User.hasMany(Expenses);
 Expenses.belongsTo(User);
 
