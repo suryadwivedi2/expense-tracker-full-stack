@@ -38,7 +38,7 @@
     </header>
     <div>
             <main>
-                <form action="submit"  class="form-control">
+                <form action="#" onsubmit="getformvalue(event)" class="form-control">
                     <label for="name" class="form-label">ENTER YOUR NAME:</label>
                     <input type="text"  class="form-input" placeholder="your good name" id="name" required>
                     <br>
@@ -48,12 +48,12 @@
                     <label for="pass" class="formlabel">ENTER YOUR PASSWORD:</label>
                     <input type="password" id="pass" class="form-input" placeholder="enter your password" required>
                     <br>
-                    <button onsubmit="getformvalue(event)"  class="btn btn-group btn-outline-danger">signup</button>
+                    <button type="submit" class="btn btn-group btn-outline-danger">signup</button>
                 </form>
             </div>
             </main>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-    <script src="expense.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" crossorigin="anonymous"></script>
+          <script defer src="expense.js"></script>
 </body>
 
 </html>
