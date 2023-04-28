@@ -14,7 +14,7 @@ let userdata={
     "password":password
 }
 
-const res=await axios.post("http://13.50.250.2:4000/expense/add-user", userdata)
+const res=await axios.post("http://13.49.127.40:4000/expense/add-user", userdata)
                 if(res.status==201){
               console.log('added successfull');
                 window.location.href='../login/login.html';

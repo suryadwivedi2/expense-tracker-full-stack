@@ -14,7 +14,7 @@ function getformvalue(event) {
         "description": description,
         "category": category
     }
-    axios.post('http://13.50.250.2:4000/user/add-expense', expense_detail, { headers: { 'Authorization': token } })
+    axios.post('http://13.49.127.40:4000/user/add-expense', expense_detail, { headers: { 'Authorization': token } })
         .then((response) => {
             console.log('expense added');
             showscreenadd(expense_detail);
@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dbtn').disabled=false;
         document.getElementById('dbtn').onclick=async()=>{
           try{
-              const response=await  axios.get('http://13.50.250.2:4000/premium/download',{ headers: { 'Authorization': token } })
+              const response=await  axios.get('http://13.49.127.40:4000/premium/download',{ headers: { 'Authorization': token } })
                if(response.status==200)
                {
                 var a = document.createElement("a");
@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
        no_of_item=Number(n);
     }
     const page=1;
-    axios.get(`http://13.50.250.2:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
+    axios.get(`http://13.49.127.40:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
         .then((response) => {
             //console.log(response.data);
                 showscreen(response.data.products);
@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
         lbtn.appendChild(inputElement);
      inputElement.onclick=async()=>{
         const token=localStorage.getItem('token');
-    const leaderboardarray= await axios.get('http://13.50.250.2:4000/premium/show-leaderboard',{ headers: {'Authorization':token}})
+    const leaderboardarray= await axios.get('http://13.49.127.40:4000/premium/show-leaderboard',{ headers: {'Authorization':token}})
    // console.log(leaderboardarray); 
     let leaderboardelement=document.getElementById('leaderboard');
      leaderboardelement.innerHTML='<h1>Leaderboard</h1>';
@@ -124,7 +124,7 @@ function showscreen(data) {
         li.appendChild(dltbtn);
         ul.appendChild(li);
         dltbtn.onclick = () => {
-            axios.delete(`http://13.50.250.2:4000/user/delete-expense/${data[i].id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
+            axios.delete(`http://13.49.127.40:4000/user/delete-expense/${data[i].id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
                 .then((result) => {
                     console.log("deleted");
                     ul.removeChild(li);
@@ -144,7 +144,7 @@ function showscreenadd(data) {
     li.appendChild(dltbtn);
     ul.appendChild(li);
     dltbtn.onclick = () => {
-        axios.delete(`http://13.50.250.2:4000/user/delete-expense/${data.id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
+        axios.delete(`http://13.49.127.40:4000/user/delete-expense/${data.id}`,{ headers: { 'Authorization': token }},{amount:data.amount})
             .then((result) => {
                 console.log("deleted");
                 ul.removeChild(li);
@@ -154,12 +154,12 @@ function showscreenadd(data) {
 
 pbtn.onclick = async (e) => {
     e.preventDefault();
-    const response = await axios.get('http://13.50.250.2:4000/premium/purchase-premium', { headers: { "Authorization": token } });
+    const response = await axios.get('http://13.49.127.40:4000/premium/purchase-premium', { headers: { "Authorization": token } });
     let options = {
         "key": response.data.key_id,
         "order_id": response.data.order.id,
         "handler": async function (response) {
-            const res = await axios.post('http://13.50.250.2:4000/premium/update-transaction', {
+            const res = await axios.post('http://13.49.127.40:4000/premium/update-transaction', {
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, { headers: { "Authorization": token } })
@@ -175,7 +175,7 @@ pbtn.onclick = async (e) => {
 
 
     rpz1.on('payment.failed', async function (response) {
-        await axios.post('http://13.50.250.2:4000/premium/update-transaction', {
+        await axios.post('http://13.49.127.40:4000/premium/update-transaction', {
             order_id: options.order_id,
             payment_id: response.razorpay_payment_id
         }, { headers: { "Authorization": token } })
@@ -236,7 +236,7 @@ if(lastPage && lastPage!=currentPage && lastPage!=nextPage && lastPage!=previous
 
 
 function getproducts(page){
-    axios.get(`http://13.50.250.2:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
+    axios.get(`http://13.49.127.40:4000/user/get-expense/${no_of_item}?page=${page}`, { headers: { 'Authorization': token } })
     .then((response) => {
         //console.log(response.data);
             showscreen(response.data.products);
