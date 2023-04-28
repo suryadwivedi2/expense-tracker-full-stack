@@ -2,9 +2,9 @@
 
 async function getformvalue(event){
 event.preventDefault();
-
-
-try{const name=document.getElementById('name').value;
+try
+{
+    const name=document.getElementById('name').value;
 const email=document.getElementById('email').value;
 const password=document.getElementById('pass').value;
 
@@ -14,7 +14,7 @@ let userdata={
     "password":password
 }
 
-const res=await axios.post("http://16.171.46.78:4000/expense/add-user", userdata)
+const res=await axios.post("http://13.48.78.68:4000/expense/add-user", userdata)
                 if(res.status==201){
               console.log('added successfull');
                 window.location.href='../login/login.html';
